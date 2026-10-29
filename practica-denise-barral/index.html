@@ -1,0 +1,22 @@
+<!doctype html>
+<!-- lang="es": el sitio está en español (lo usan los lectores de pantalla y el traductor del navegador). -->
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>practica-denise-barral</title>
+  </head>
+  <body>
+    <!--
+      index.html es la ÚNICA página HTML de la app: todo lo demás lo dibuja Vue con JS.
+      Este div vacío es el "punto de montaje": en main.js, app.mount('#app') dibuja App.vue acá adentro.
+
+      No lleva clases a propósito (regla de estilizacion.md): el esqueleto con grid que deja el footer
+      siempre abajo está en el div raíz de App.vue.
+    -->
+    <div id="app"></div>
+    <!-- type="module" habilita los import / export en el navegador. -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

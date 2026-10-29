@@ -1,0 +1,26 @@
+# Dependencias (se reinstalan con npm install / pnpm install)
+node_modules/
+
+# Archivos internos del CLI de Supabase (incluyen claves del deploy local)
+**/supabase/.temp/
+**/supabase/.branches/
+
+# Variables de entorno
+.env
+.env.*
+
+# Builds
+dist/
+
+# Carpetas que (por ahora) no se suben al repo.
+# Cuando quieras subir una, borrá su línea de acá.
+clase-02/
+clase-03/
+clase-04/
+clase-05/
+clase-06/
+clase-07/
+clase-08/
+clase-09/
+clase-12/
+barral-denise/

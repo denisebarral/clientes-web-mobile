@@ -1,0 +1,6 @@
+# Configuración de pnpm para este proyecto.
+# En pnpm v11, los paquetes NO pueden correr scripts de instalación salvo que se los permita acá.
+# "supabase" (el CLI) los necesita para descargar su programa al instalarse; sin este permiso,
+# "pnpm supabase start" no funcionaría.
+allowBuilds:
+  supabase: true

@@ -1,0 +1,10 @@
+/*
+    style.css — Estilos globales de la app (se importa en main.js).
+
+    Esta línea "trae" Tailwind: su reset de estilos base y todas las clases de utilidad.
+    Tailwind solo genera el CSS de las clases que encuentra escritas en nuestros archivos (.vue, .html, .js).
+
+    Acá irán más adelante @theme (paleta y tipografías) y @layer base (estilos globales de etiquetas),
+    según la guía de estilos (estilizacion.md).
+*/
+@import "tailwindcss";
