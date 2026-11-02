@@ -29,6 +29,7 @@
   - [Clases dinámicas con :class](#clases-dinámicas-con-class)
 - [Flujo completo](#flujo-completo)
 - [Observaciones sobre el código de la clase](#observaciones-sobre-el-código-de-la-clase)
+- [Referencia rápida: comandos del CLI de Supabase (migraciones y seed)](#referencia-rápida-comandos-del-cli-de-supabase-migraciones-y-seed)
 - [Cómo probarlo](#cómo-probarlo)
 - [Resumen para el parcial](#resumen-para-el-parcial)
 
@@ -588,6 +589,63 @@ sendPrivateChatMessage({ sender_id: Sara, receiver_id: Pepe, body })
 | `auth.js` | El profe agregó `// TODO: Unsub`: reconoce que falta poder **desuscribirse** del observer (cada página que se suscribe suma un observer que nunca se borra, y ahora `PrivateChat` también se suscribe) | Que `subscribeToAuthStateChange` devuelva una función para desuscribirse y llamarla en `unmounted()` |
 
 **`TODO` del profe para la próxima clase:** completar el chat privado (suscripción en tiempo real y caché de los chats privados), RLS y la desuscripción del observer.
+
+---
+
+## Referencia rápida: comandos del CLI de Supabase (migraciones y seed)
+
+Todos se corren **desde la carpeta del proyecto** (la que tiene la carpeta `supabase/` adentro), con **Docker Desktop abierto**. En la práctica se usa pnpm; el profe usa npm (`npx supabase ...`).
+
+| Para qué | pnpm | npm |
+|---|---|---|
+| Levantar Supabase local | `pnpm supabase start` | `npx supabase start` |
+| Ver URLs y keys | `pnpm supabase status` | `npx supabase status` |
+| Detener Supabase local | `pnpm supabase stop` | `npx supabase stop` |
+| **Crear** una migración nueva | `pnpm supabase migration new <nombre>` | `npx supabase migration new <nombre>` |
+| **Aplicar** las migraciones pendientes | `pnpm supabase migration up` | `npx supabase migration up` |
+| Ver qué migraciones están aplicadas | `pnpm supabase migration list` | `npx supabase migration list` |
+| **Resetear** la base (todas las migraciones + seed) | `pnpm supabase db reset` | `npx supabase db reset` |
+
+Ejemplo real de esta clase:
+
+```bash
+pnpm supabase migration new create_private_chats_table
+# → crea supabase/migrations/20261023003327_create_private_chats_table.sql (vacío; el SQL lo escribimos nosotros)
+```
+
+### migration new vs migration up vs db reset
+
+(No existe un comando `create`: para crear se usa `migration new`.)
+
+| | `migration new <nombre>` | `migration up` | `db reset` |
+|---|---|---|---|
+| Qué hace | **Crea un archivo** `.sql` vacío en `supabase/migrations/`, con la fecha y hora adelante | **Ejecuta** las migraciones que **todavía no se aplicaron** | **Borra toda la base** y la vuelve a armar: ejecuta **todas** las migraciones desde cero y después el **seed** |
+| ¿Toca la base de datos? | No (solo crea el archivo) | Sí, solo agrega lo nuevo | Sí, la recrea entera |
+| ¿Borra datos? | No | No | **Sí**: mensajes, perfiles y **usuarios registrados** |
+| ¿Corre el seed? | No | **No** | **Sí** |
+| ¿Aplica cambios hechos a una migración **ya aplicada**? | — | **No** (ya figura como aplicada, la saltea) | Sí (corre todo de nuevo) |
+| Cuándo usarlo | Para empezar un cambio en la estructura de la base | Agregaste una migración nueva y querés conservar tus datos | Querés empezar de cero, cambiaste el seed, o editaste una migración vieja (como `sender_id` en la clase 10) |
+
+**El flujo típico para un cambio en la base:**
+
+```bash
+pnpm supabase migration new <nombre>   # 1. crear el archivo
+# 2. escribir el SQL en el archivo nuevo de supabase/migrations/
+pnpm supabase migration up             # 3a. aplicarlo conservando los datos...
+pnpm supabase db reset                 # 3b. ...o empezar de cero (incluye el seed)
+```
+
+### ¿Y para correr el seed?
+
+**No hay un comando que corra solo el seed.** `supabase/seed.sql` se ejecuta **automáticamente al final de `db reset`**, después de las migraciones (si está habilitado en `config.toml`, sección `[db.seed]`, que viene así por defecto).
+
+| Quiero... | Cómo |
+|---|---|
+| Cargar los datos del seed | `pnpm supabase db reset` (recrea la base y corre el seed) |
+| Resetear **sin** cargar el seed | `pnpm supabase db reset --no-seed` |
+| Correr solo un pedazo de SQL sin borrar nada | Pegarlo en el **SQL Editor** del Studio local (`http://127.0.0.1:54323`) |
+
+> **Ojo:** como `db reset` borra también los usuarios, después de un reset solo existen los que crea el seed (`sara@za.com` y `pepe@trueno.com`, contraseña `asdasd`). Si te habías registrado con otro usuario, hay que volver a crearlo.
 
 ---
 

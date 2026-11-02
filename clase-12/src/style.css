@@ -1,0 +1,36 @@
+@import 'tailwindcss';
+
+/* @theme {
+    --color-brand-red: red;
+} */
+
+@layer components {
+    .h1 {
+        /*
+            Si decidimos crear clases de CSS propias cuando estamos usando Tailwind, es recomendable
+            usar las variables que el framework define para nuestros estilos, así podemos garantizar 
+            la cohesión en el diseño.
+
+            Es cierto que puede ser un poco incómodo hacerlo si no sabemos de memoria los nombres de
+            las variables de Tailwind.
+            Es por esta razón que, de ir por el camino de crear clases propias, suele ser una buena 
+            idea aprovechar la instrucción "@apply".
+
+            @apply nos permite usar los valores de otras clases de Tailwind para crear nuevas clases.
+        */
+        @apply mb-4 text-3xl;
+
+        /* margin-bottom: calc(var(--spacing) * 4);
+        font-size: var(--text-3xl);
+        line-height: var(--tw-leading, var(--text-3xl--line-height)); */
+    }
+}
+
+/* html, body, #app {
+    height: 100%;
+}
+
+#app {
+    display: grid;
+    grid-template-rows: 60px 1fr 100px;
+} */

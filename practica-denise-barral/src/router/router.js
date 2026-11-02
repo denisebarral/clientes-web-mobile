@@ -14,6 +14,7 @@ import Register from "../pages/Register.vue";
 import MyProfile from "../pages/MyProfile.vue";
 import EditProfile from "../pages/EditProfile.vue";
 import UserProfile from "../pages/UserProfile.vue";
+import PrivateChat from "../pages/PrivateChat.vue";
 
 // Definimos la lista de rutas.
 // Esto es un array de objetos, donde cada objeto representa una ruta y sus características.
@@ -32,6 +33,7 @@ const routes = [
     { path: '/mi-perfil/editar',    component: EditProfile,     meta: { requiresAuth: true, }, },
     // :param nos permite definir un parámetro de ruta. Es decir, un segmento dinámico que puede ser X valor y que luego podamos capturar y usar.
     { path: '/usuario/:id',         component: UserProfile,     meta: { requiresAuth: true, }, },
+    { path: '/usuario/:id/chat',    component: PrivateChat,     meta: { requiresAuth: true, }, },
   
 ];
 

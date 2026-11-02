@@ -63,4 +63,12 @@ export default {
         <dt class="mb-0.5 font-bold">Carrera</dt>
         <dd class="ps-2 mb-2">{{ user.career ?? 'Sin especificar...' }}</dd>
     </dl>
+
+    <hr class="mb-4">
+
+    <!-- :to="'/usuario/' + user.id + 'chat'" -->
+    <RouterLink 
+        :to="`/usuario/${user.id}/chat`"
+        class="text-blue-700 underline" 
+    >Ir a la conversación privada con {{ user.email }}</RouterLink>
 </template>
